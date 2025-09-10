@@ -5,7 +5,7 @@ const file = path.join("/tmp", "subs.json"); // temp storage (resets when redepl
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const sub = JSON.parse(req.body);
+    const sub = req.body;
 
     let subs = [];
     try {
