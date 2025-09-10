@@ -1,0 +1,24 @@
+there should be a notification request
+<script>
+async function init() {
+  const permission = await Notification.requestPermission();
+  if (permission !== "granted") return;
+
+  const reg = await navigator.serviceWorker.register("/sw.js");
+
+  const subscription = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: "<YOUR_PUBLIC_VAPID_KEY>"
+  });
+
+  // Send subscription to Vercel backend
+  await fetch("/api/save-subscription", {
+    method: "POST",
+    body: JSON.stringify(subscription),
+    headers: { "Content-Type": "application/json" }
+  });
+}
+
+init();
+</script>
+you can GET /send
